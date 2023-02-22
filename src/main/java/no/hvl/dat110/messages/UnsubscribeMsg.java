@@ -5,7 +5,7 @@ public class UnsubscribeMsg extends Message {
 	// message sent from client to unsubscribe on a topic 
 
     public UnsubscribeMsg(String user, String topic) {
-        super(MessageType.UNSUBSCRIBE, topic);
+        super(MessageType.UNSUBSCRIBE, user);
         this.topic = topic;
     }
 

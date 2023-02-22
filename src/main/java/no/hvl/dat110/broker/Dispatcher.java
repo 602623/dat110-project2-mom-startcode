@@ -147,6 +147,10 @@ public class Dispatcher extends Stopable {
 
 	public void onPublish(PublishMsg msg) {
 
+		storage.getSubscribers(msg.getTopic()).forEach(u -> {
+			System.out.println(storage.getSession(u));
+		});
+
 		storage.getSubscribers(msg.getTopic()).forEach(u -> storage.getSession(u).send(msg));
 
 		Logger.log("onPublish:" + msg);
