@@ -108,55 +108,53 @@ public class Dispatcher extends Stopable {
 
 	public void onCreateTopic(CreateTopicMsg msg) {
 
-		Logger.log("onCreateTopic:" + msg.toString());
+		storage.createTopic(msg.getTopic());
+		Logger.log("onCreateTopic:" + msg);
 
 		// TODO: create the topic in the broker storage
 		// the topic is contained in the create topic message
-
-		throw new UnsupportedOperationException(TODO.method());
 
 	}
 
 	public void onDeleteTopic(DeleteTopicMsg msg) {
 
-		Logger.log("onDeleteTopic:" + msg.toString());
+		storage.deleteTopic(msg.getTopic());
+		Logger.log("onDeleteTopic:" + msg);
 
 		// TODO: delete the topic from the broker storage
 		// the topic is contained in the delete topic message
 		
-		throw new UnsupportedOperationException(TODO.method());
 	}
 
 	public void onSubscribe(SubscribeMsg msg) {
 
-		Logger.log("onSubscribe:" + msg.toString());
+		storage.addSubscriber(msg.getUser(), msg.getTopic());
+		Logger.log("onSubscribe:" + msg);
 
 		// TODO: subscribe user to the topic
 		// user and topic is contained in the subscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
 
 	}
 
 	public void onUnsubscribe(UnsubscribeMsg msg) {
 
-		Logger.log("onUnsubscribe:" + msg.toString());
+		storage.removeSubscriber(msg.getUser(), msg.getTopic());
+		Logger.log("onUnsubscribe:" + msg);
 
 		// TODO: unsubscribe user to the topic
 		// user and topic is contained in the unsubscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
 	}
 
 	public void onPublish(PublishMsg msg) {
 
-		Logger.log("onPublish:" + msg.toString());
+		storage.getSubscribers(msg.getTopic()).forEach(u -> storage.getSession(u).send(msg));
+
+		Logger.log("onPublish:" + msg);
 
 		// TODO: publish the message to clients subscribed to the topic
 		// topic and message is contained in the subscribe message
 		// messages must be sent using the corresponding client session objects
 		
-		throw new UnsupportedOperationException(TODO.method());
 
 	}
 }
